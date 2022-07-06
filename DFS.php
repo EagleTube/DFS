@@ -7,7 +7,6 @@ namespace DragonForceMalaysia;
 #                   Github : https://github.com/EagleTube                       #
 #               Youtube : https://www.youtube.com/c/EagleTube1337               #
 #                  Do not self claim or claiming this webshell                  #
-#           I do not hate script kiddies but please respect the developer       #
 #                                                                               #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
