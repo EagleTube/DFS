@@ -27,7 +27,7 @@ MySQL Database simple management<br>
 Cpanel/WHM Bruteforcer<br>
 <img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_5.png'><br><br>
 
-# Upcoming Features
+# Upcoming Features (V2)
 Zip&Unzip<br>
 Better MassDeface<br>
 Better DBs Managements<br>
