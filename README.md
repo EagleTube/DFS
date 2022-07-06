@@ -5,7 +5,7 @@ Password: DFS@Malaysia
 <br>
 
 # Features
-Symlink<br>
+Auto Symlink<br>
 Cpanel/WHM Bruteforce<br>
 MySQL Access<br>
 OpenSSL Encryption<br>
