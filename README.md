@@ -1,6 +1,7 @@
 # DFS
 DragonForceShell
-Initial release of DragonForceShell(DFS) Version 1.0
+Initial release of DragonForceShell(DFS) Version 1.0<br>
+Password: DFS@Malaysia
 <br>
 
 # Features
