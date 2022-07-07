@@ -319,7 +319,7 @@ div.symex{
   color:#09e009;
   height:400px;
   width:80%;
-  overflow:hidden;
+  overflow:scroll;
   padding:8px;
   display:block;
   margin:auto;
