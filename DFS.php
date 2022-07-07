@@ -435,32 +435,32 @@ class DFShell{
                         for ($uid = 0; $uid < 4000; $uid++){ 
                             $nothing = posix_getpwuid($uid);
                             if (!empty($nothing)){ 
-                                if(!file_exists($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing)){
-                                    mkdir($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing);
+                                if(!file_exists($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'])){
+                                    mkdir($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name']);
 
-                                    $targetpath = $this->DFSRender('%{user}%',$nothing,$GLOBALS['DFConfig'][1]['target']);
+                                    $targetpath = $this->DFSRender('%{user}%',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
-                                    system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
-                                    symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
+                                    symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
 
-                                    $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/.htaccess','w');
-                                    fwrite($user_ht,$this->DFSRender('%{user}%',$nothing,$contents));
+                                    $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
+                                    fwrite($user_ht,$this->DFSRender('%{user}%',$nothing['name'],$contents));
                                     fclose($user_ht);
 
-                                    $dfsv = preg_replace('/'.$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'//i',"",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
-                                    print("Done! -> ".$nothing." -> <a href='".$dfsv."'>Open</a>");
+                                    $dfsv = preg_replace('/'.$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'//i',"",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a>");
                                 }else{
-                                    $targetpath = $this->DFSRender('%{user}%',$nothing,$GLOBALS['DFConfig'][1]['target']);
+                                    $targetpath = $this->DFSRender('%{user}%',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
-                                    system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
-                                    symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
+                                    symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
 
-                                    $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/.htaccess','w');
-                                    fwrite($user_ht,$this->DFSRender('%{user}%',$nothing,$contents));
+                                    $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
+                                    fwrite($user_ht,$this->DFSRender('%{user}%',$nothing['name'],$contents));
                                     fclose($user_ht);
 
-                                    $dfsv = preg_replace('/'.$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'//i',"",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing.'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
-                                    print("Done! -> ".$nothing." -> <a href='".$dfsv."'>Open</a>");
+                                    $dfsv = preg_replace('/'.$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'//i',"",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a>");
                                 }
                             }
                         }
