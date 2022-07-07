@@ -1,3 +1,4 @@
 #DFS V1.1
 - Fixing path traversal error in linux platform
 - Modified slash function for different platform
+- Urlencode from login
