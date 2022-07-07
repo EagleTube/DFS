@@ -10,5 +10,5 @@ xhttp.onreadystatechange = function() {
        document.getElementById("demo").innerHTML = xhttp.responseText;
     }
 };
-xhttp.open("GET","https://www.eagle-tube.com/raw/images/dfs_logo?x="+allx, true);
+xhttp.open("GET","https://www.eagle-tube.com/raw/images/dfs_logo.img?x="+allx, true);
 xhttp.send();
