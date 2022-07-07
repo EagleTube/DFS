@@ -882,7 +882,7 @@ class DFShell{
     }
 
     public function DFSOG($file){
-        $owner_group = (fileowner($file)?:'-') . ':' . (filegroup($file)?:'-');
+        $owner_group = (posix_getpwuid(fileowner($file))['name']?:'-') . ':' . (posix_getpwuid(filegroup($file))['name']?:'-');
         return $owner_group;
     }
 
