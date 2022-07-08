@@ -915,11 +915,11 @@ class DFShell{
         $dfsGE = ""; 
         for($c=0;$c<$dfsSZ;$c++){
             if($dfsEP[$c]!=""){
-                array_push($truepath,$dfsEP[$c]);;
+                array_push($truepath,$dfsEP[$c]);
             }
         }
 
-        for($i=0;$i<sizeof($truepath);$i++){
+        for($i=0;$i<=sizeof($truepath);$i++){
             $dfsGE .=  $dfsEP[$i] . $slashtype;
             $dfsGEn = $this->DFSDirFilter($dfsGE);
             //$this->string = preg_replace('/'.$slashtype.$slashtype.'/i',$slashtype,$dfsGE);
