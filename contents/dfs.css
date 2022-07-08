@@ -46,6 +46,9 @@ img{
 div.intros{
   text-align:center;
   color:#FFD700;
+  width:80%;
+  font-size:14px;
+  margin: 0 auto;
 }
 div.intros a{
   color:#fff;
@@ -56,7 +59,7 @@ section.bodytop{
   margin-bottom:15px;
 }
 section.bodytop a{
-  font-size:20px;
+  font-size:14px;
   padding:5px;
   margin-left:5px;
   margin-right:5px;
@@ -123,15 +126,21 @@ div.directory table{
   margin:auto;
   border-collapse: collapse;
 }
-dv.directory table, th,tr{
+div.directory th{
+  font-size:12px;
+}
+div.directory i{
+  font-size:17px;
+}
+div.directory table, th,tr{
   border-radius:10px;
   border:2px solid #1902c9;
 }
-dv.directory, tr:hover{
+div.directory tr:hover{
   background:rgba(255,255,255,0.5);
 }
 div.directory table td{
-  font-size:14px;
+  font-size:12px;
   padding:2px;
 }
 #tbname{
@@ -319,7 +328,7 @@ div.symex{
   color:#09e009;
   height:400px;
   width:80%;
-  overflow:scroll;
+  overflow:hidden;
   padding:8px;
   display:block;
   margin:auto;
