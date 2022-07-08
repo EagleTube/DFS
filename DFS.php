@@ -411,8 +411,7 @@ class DFShell{
                 }
             break;
             case "cmd":
-                $slashtype = $this->DFSSlash();
-                $this->DFSCurrent($slashtype);
+
                 if(isset($GLOBALS['DFConfig'][0]['dfp'])){
                     $GLOBALS['DFSyntax'][3]($this->Dec($GLOBALS['DFConfig'][0]['dfp']));
                 }else{
