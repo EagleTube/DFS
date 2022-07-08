@@ -50,7 +50,7 @@ class DFShell{
     private $error   = false;   
 
     static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
-    static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
+    static protected $remote_url = "http://localhost/css";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
         if($x){
@@ -444,28 +444,28 @@ class DFShell{
                                 if(!file_exists($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'])){
                                     mkdir($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name']);
 
-                                    $targetpath = $this->DFSRender('%{user}%',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
+                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
                                     system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
                                     symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
 
                                     $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
-                                    fwrite($user_ht,$this->DFSRender('%{user}%',$nothing['name'],$contents));
+                                    fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
                                     fclose($user_ht);
 
-                                    $dfsv = preg_replace('/'.$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'//i',"",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
-                                    print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a>");
+                                    $dfsv = preg_replace('/'.urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'/').'/i',"",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
+                                    print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a><br>");
                                 }else{
-                                    $targetpath = $this->DFSRender('%{user}%',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
+                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
                                     system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
                                     symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
 
                                     $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
-                                    fwrite($user_ht,$this->DFSRender('%{user}%',$nothing['name'],$contents));
+                                    fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
                                     fclose($user_ht);
 
-                                    $dfsv = preg_replace('/'.$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'//i',"",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    $dfsv = preg_replace('/'.urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT'].'/').'/i',"",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
                                     print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a>");
                                 }
                             }
