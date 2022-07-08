@@ -453,7 +453,7 @@ class DFShell{
                                     fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
                                     fclose($user_ht);
 
-                                    $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
                                     print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a><br>");
                                 }else{
                                     $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
@@ -465,7 +465,7 @@ class DFShell{
                                     fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
                                     fclose($user_ht);
 
-                                    $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                    $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
                                     print("Done! -> ".$nothing['name']." -> <a href='".$dfsv."'>Open</a><br>");
                                 }
                             }
