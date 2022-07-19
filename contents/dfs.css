@@ -775,3 +775,19 @@ div.symex{
   padding:3px;
   border-radius:5px;
 }
+#anact{
+  padding:10px;
+  margin-top:10px;
+  text-align:center;
+
+}
+#anact input[type=submit]{
+  color:#fff;
+  background:blue;
+  padding:5px;
+  font-size:18px;
+  font-family:'Orbitron';
+  text-align:center;
+  border:none;
+  border-radius:7px;
+}
