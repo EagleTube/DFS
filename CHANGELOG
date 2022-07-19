@@ -7,6 +7,10 @@
 - Directory error patch
 - Scan ini_get and filter
 
+#DFS V1.3
+- Linux early directory
+
 #DFS V2.0
 - Zip
 - Chmod
+- Better mass deface
