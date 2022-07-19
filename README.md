@@ -4,7 +4,7 @@ Initial release of DragonForceShell(DFS) Version 2.0<br>
 Password: DF_Malaysia@1337$
 <br>
 
-# DFSV1 Compatibility
+# DFSV2 Compatibility
 PHP7 and above<br>
 Enabled allow_url_open
 
