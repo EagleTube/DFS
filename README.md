@@ -35,5 +35,4 @@ Cpanel/WHM Bruteforcer<br>
 Zip&Unzip<br>
 Better MassDeface<br>
 Better DBs Managements<br>
-Multiple File Upload<br>
 Permission Changer<br>
