@@ -18,6 +18,8 @@ ReverseShell<br>
 Command<br>
 Mass Deface<br>
 Disk Available<br>
+Pick and Zip<br>
+Permission Code(Chmod)<br>
 
 # Images
 Example run on window<br>
@@ -31,8 +33,7 @@ MySQL Database simple management<br>
 Cpanel/WHM Bruteforcer<br>
 <img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_5.png'><br><br>
 
-# Upcoming Features (V2)
-Zip&Unzip<br>
-Better MassDeface<br>
-Better DBs Managements<br>
-Permission Changer<br>
+# Upcoming Features (V2.1)
+Unzip<br>
+Mass Delete<br>
+Better DBMs<br>
