@@ -102,7 +102,7 @@ section.sources::-webkit-scrollbar-thumb{
   border-radius:10px;
 }
 div.directory{
-  width:90%;
+  width:95%;
   height:700px;
   overflow:scroll;
   margin-right:auto;
@@ -751,4 +751,27 @@ div.symex{
   outline:none;
   background:rgba(0,0,0,0);
   color:#FFD700;
+}
+#fchecks{
+  text-align:center;
+}
+.modarea,
+.modarea input[type=text]{
+  text-align:center;
+}
+.modarea input[type=text]{
+  font-size:17px;
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  font-family:'Orbitron';
+  border:none;
+}
+.modarea input[type=submit]{
+  font-size:17px;
+  color:#fff;
+  font-family:'Orbitron';
+  background:indigo;
+  border:none;
+  padding:3px;
+  border-radius:5px;
 }
