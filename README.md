@@ -1,3 +1,8 @@
+# Disclaimer
+This shell are used for study purpose<br>
+Please do not harm any site using this webshell<br>
+Any damage done to the website are with your own responsibilities
+
 # DFS
 DragonForceShell
 Initial release of DragonForceShell(DFS) Version 2.0<br>
