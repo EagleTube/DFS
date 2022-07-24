@@ -14,7 +14,7 @@ PHP7 and above<br>
 Enabled allow_url_open
 
 # Features
-Auto Symlink<br>
+Symlink Manual to Auto<br>
 Cpanel/WHM Bruteforce<br>
 MySQL Access<br>
 OpenSSL Encryption<br>
