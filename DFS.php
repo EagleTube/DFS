@@ -897,7 +897,7 @@ class DFShell{
             }
 
         }else{
-            system($command);
+            return system($command);
         }
     }
 
