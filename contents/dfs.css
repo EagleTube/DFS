@@ -791,3 +791,21 @@ div.symex{
   border:none;
   border-radius:7px;
 }
+#unzipping label{
+  color:#fff;
+}
+#unzipping input[type=text]{
+  padding:2px;
+  font-size:17px;
+  color:#FFD700;
+  background:rgba(0,0,0,0.5);
+  border:none;
+  border-radius:8px;
+}
+#unzipping button{
+  background:indigo;
+  color:white;
+  border-radius:8px;
+  font-size:18px;
+  width:200px;
+}
