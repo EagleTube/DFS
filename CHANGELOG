@@ -17,3 +17,12 @@
 
 #DFS V2.0 24/07/22
 - Command error fixed
+
+#DFS V2.1 08/08/22
+- Command error fixed
+- Symlink error fixed
+- Database command fixed
+- Owner/Group Recode
+- Add Mass deletion
+- Add Unzip function
+- Add Drop DB/TB function
