@@ -5,11 +5,11 @@ Any damage done to the website are with your own responsibilities
 
 # DFS
 DragonForceShell
-Initial release of DragonForceShell(DFS) Version 2.0<br>
+Initial release of DragonForceShell(DFS) Version 2.1<br>
 Password: DF_Malaysia@1337$
 <br>
 
-# DFSV2 Compatibility
+# DFSV2.1 Compatibility
 PHP7 and above<br>
 Enabled allow_url_open
 
@@ -23,8 +23,9 @@ ReverseShell<br>
 Command<br>
 Mass Deface<br>
 Disk Available<br>
-Pick and Zip<br>
+Unzip and Zip<br>
 Permission Code(Chmod)<br>
+Mass Deletion<br>
 
 # Images
 Example run on window<br>
@@ -38,7 +39,7 @@ MySQL Database simple management<br>
 Cpanel/WHM Bruteforcer<br>
 <img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_5.png'><br><br>
 
-# Upcoming Features (V2.1)
-Unzip<br>
-Mass Delete<br>
-Better DBMs<br>
+# Upcoming Features (V2.2)
+Email Bombing<br>
+Various Reverse Shell<br>
+Varous passwd View<br>
