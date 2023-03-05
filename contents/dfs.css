@@ -134,7 +134,7 @@ div.directory th{
 div.directory i{
   font-size:17px;
 }
-div.directory table, th,tr{
+div.directory table, div.directory th,div.directory tr{
   border-radius:10px;
   border:2px solid #1902c9;
 }
@@ -146,9 +146,43 @@ div.directory table td{
   padding:2px;
 }
 div.bombing table{
-  width:100%;
+  width:70%;
   margin:auto;
   border-collapse: collapse;
+}
+div.bombing{
+    text-align:center
+}
+div.bombing h3{
+    color:#fff;
+}
+div.bombing input[type=text],
+div.bombing textarea{
+  background:rgba(0,0,0,0.5);
+  outline:none;
+  border:none;
+  color:#fff;
+}
+div.bombing textarea{
+    width:95%;
+    resize:none;
+    height:300px;
+    border-radius:8px;
+    padding:8px;
+}
+div.bombing input[type=text]{
+    width:100%;
+    border-radius:5px;
+    font-size:20px;
+    padding:5px;
+}
+div.bombing button{
+    width:40%;
+    font-size:20px;
+    cursor:pointer;
+    border-radius:8px;
+    background:indigo;
+    color:#fff;
 }
 #tbname{
   width:250px;
@@ -361,6 +395,7 @@ div.symex{
   font-size:18px;
   border-radius:8px;
   font-family:'Orbitron';
+  cursor:pointer;
 }
 .cracksection td tr{
   border-collapse:collapse;
@@ -391,7 +426,7 @@ div.symex{
   width:200px;
   font-size:18px;
   border-radius:8px;
-  border-none;
+  border:none;
   outline:none;
   background:rgba(0,0,0,0.5);
   color:#fff;
