@@ -40,6 +40,5 @@ Cpanel/WHM Bruteforcer<br>
 <img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_5.png'><br><br>
 
 # Upcoming Features (V2.3)
-Email Bombing<br>
-Various Reverse Shell<br>
-Varous passwd View<br>
+Local network ip scanning<br>
+Local network port scanning<br>
