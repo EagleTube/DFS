@@ -145,6 +145,11 @@ div.directory table td{
   font-size:12px;
   padding:2px;
 }
+div.bombing table{
+  width:100%;
+  margin:auto;
+  border-collapse: collapse;
+}
 #tbname{
   width:250px;
 }
