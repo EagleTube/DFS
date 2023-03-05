@@ -26,3 +26,9 @@
 - Add Mass deletion
 - Add Unzip function
 - Add Drop DB/TB function
+
+#DFS V2.2 05/03/23
+- Email Bombing features
+- Fixing missing delete function
+- Symlink , manually convert the "target path string" to base64 before submit
+- Symlink base64 insert (bypass detection)
