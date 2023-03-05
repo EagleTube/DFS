@@ -32,3 +32,4 @@
 - Fixing missing delete function
 - Symlink , manually convert the "target path string" to base64 before submit
 - Symlink base64 insert (bypass detection)
+- Update notifier
