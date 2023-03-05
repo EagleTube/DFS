@@ -595,7 +595,7 @@ class DFShell{
                                 if(!file_exists($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'])){
                                     mkdir($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name']);
 
-                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$this->Dec(urldecode($GLOBALS['DFConfig'][1]['target'])));
+                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],base64_decode(urldecode($GLOBALS['DFConfig'][1]['target'])));
 
                                     if(isset($targetpath)){
                                         $this->DFSExecute("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
@@ -609,7 +609,7 @@ class DFShell{
                                         print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
                                     }
                                 }else{
-                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$this->Dec(urldecode($GLOBALS['DFConfig'][1]['target'])));
+                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],base64_decode(urldecode($GLOBALS['DFConfig'][1]['target'])));
 
                                     if(isset($targetpath)){
                                         $this->DFSExecute("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
