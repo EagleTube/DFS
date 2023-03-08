@@ -12,7 +12,7 @@ Any damage done to the website are with your own responsibilities
 
 # DFS
 DragonForceShell
-Initial release of DragonForceShell(DFS) Version 2.1<br>
+Initial release of DragonForceShell(DFS) Version 2.2<br>
 Password: DF_Malaysia@1337$
 <br>
 
