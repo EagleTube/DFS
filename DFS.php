@@ -387,7 +387,7 @@ class DFShell{
                     $headers = "From: ".$GLOBALS['DFConfig'][2]['SERVER_ADMIN'];
                     foreach($emails as $email){
                         $email = preg_replace("/\s+/i","",$email);
-                        if(@mail($email,$subject,$txt,$headers)){
+                        if(@mail($email,$subject,$message,$headers)){
                             print("<font color='green'>Email sent -> ".$email."</font><br>");
                         }else{
                             print("<font color='red'>Failed -> ".$email."</font><br>");
