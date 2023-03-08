@@ -17,11 +17,11 @@ body::-webkit-scrollbar-track {
   background: var(--scrollbarBG);
 }
 body::-webkit-scrollbar-thumb {
-  background-color: #fc0307;
-  border-top-left-radius:50%;
-  border-top-right-radius:50%;
-  border-bottom-left-radius:50%;
-  border-bottom-right-radius:50%;
+  background-color: #5e0703;
+  border-top-left-radius:10%;
+  border-top-right-radius:10%;
+  border-bottom-left-radius:10%;
+  border-bottom-right-radius:10%;
 }
 
 a{
