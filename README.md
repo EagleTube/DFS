@@ -1,5 +1,5 @@
 # Introduction
-Using OOP for webshell?? why not? As if u know how detection works :)<br>
+OOP WEBSHELL LOL<br>
 This webshell are programmed and modified by Eagle Eye<br>
 Github : https://github.com/EagleTube<br>
 Youtube : https://www.youtube.com/c/EagleTube1337<br>
