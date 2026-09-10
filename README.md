@@ -1,51 +1,73 @@
-# Introduction
-OOP WEBSHELL LOL<br>
-This webshell are programmed and modified by Eagle Eye<br>
-Github : https://github.com/EagleTube<br>
-Youtube : https://www.youtube.com/c/EagleTube1337<br>
- Referred : ivan-sincek(revershell) | 0x5a455553(PermChg)<br>
+# DragonForceShell (DFS)
 
-# Disclaimer
-This shell are used for study purpose<br>
-Please do not harm any site using this webshell<br>
-Any damage done to the website are with your own responsibilities
+OOP Webshell lol
 
-# DFS
-DragonForceShell
-Initial release of DragonForceShell(DFS) Version 2.2<br>
-Password: DF_Malaysia@1337$
-<br>
+Programmed and modified by Eagle Eye
+- Github: https://github.com/EagleTube
+- Youtube: https://www.youtube.com/c/EagleTube1337
 
-# DFSV2.1 Compatibility
-PHP7 and above<br>
-Enabled allow_url_open
+Referred: ivan-sincek (revershell) | 0x5a455553 (PermChg)
 
-# Features
-Symlink Manual to Auto<br>
-Cpanel/WHM Bruteforce<br>
-MySQL Access<br>
-OpenSSL Encryption<br>
-Self Destruct<br>
-ReverseShell<br>
-Command<br>
-Mass Deface<br>
-Disk Available<br>
-Unzip and Zip<br>
-Permission Code(Chmod)<br>
-Mass Deletion<br>
+## Disclaimer
 
-# Images
-Example run on window<br>
-<img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_1.png'><br><br>
-Directory Listing<br>
-<img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_2.png'><br><br>
-Area of of create file and upload<br>
-<img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_3.png'><br><br>
-MySQL Database simple management<br>
-<img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_4.png'><br><br>
-Cpanel/WHM Bruteforcer<br>
-<img src='https://github.com/EagleTube/DFS/blob/main/images/Screenshot_5.png'><br><br>
+This shell is for study purpose only. Please don't harm any site using this webshell. Any damage done is your own responsibility.
 
-# Upcoming Features (V2.3)
-Local network ip scanning<br>
-Local network port scanning<br>
+## DFS
+
+DragonForceShell - Version 2.5
+
+Password: `DF_Malaysia@1337$`
+
+## Compatibility
+
+PHP 7 and above, allow_url_open enabled
+
+## Features
+
+- Symlink Manual to Auto
+- Cpanel/WHM Bruteforce
+- MySQL Access
+- OpenSSL Encryption
+- Self Destruct
+- ReverseShell
+- Command
+- Mass Deface
+- Disk Available
+- Unzip and Zip
+- Permission Code (Chmod + Recursive)
+- Mass Deletion (Recursive)
+- Local Network IP Scanner (?dfaction=netscan)
+- Port Scanner w/ banner grab (?dfaction=portscan)
+- Recursive File Search (?dfaction=search)
+- Copy / Move / File Info / PHPInfo
+- Auto LPE - Cross-platform privilege escalation audit (Linux + Windows)
+  - Linux: SUID/SGID + GTFOBins, capabilities, kernel CVEs (DirtyPipe/PwnKit/DirtyCOW etc), writable passwd/shadow, sudo audit, Docker/LXC/K8s, cron, NFS, systemd, Polkit
+  - Windows: token privs, unquoted service paths, writable service binaries, AlwaysInstallElevated, UAC bypass, autorun keys, scheduled tasks, kernel CVEs (PrintNightmare/HiveNightmare etc), stored creds, DLL hijacking
+
+## Screenshots
+
+Example run on Windows
+
+![](images/Screenshot_1.png)
+
+Directory Listing
+
+![](images/Screenshot_2.png)
+
+File creation and upload area
+
+![](images/Screenshot_3.png)
+
+MySQL Database simple management
+
+![](images/Screenshot_4.png)
+
+Cpanel/WHM Bruteforcer
+
+![](images/Screenshot_5.png)
+
+## Upcoming (V2.6)
+
+- UDP scanning + service fingerprinting
+- Ajax terminal + file editor with line numbers
+- More kernel CVEs and Windows exploit modules
